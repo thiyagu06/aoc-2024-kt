@@ -75,9 +75,11 @@ data class Point(val x: Int, val y: Int) {
 
     fun turnLeft() = copy(y, -x)
     fun turnRight() = copy(-y, x)
+    fun withinBounds(end: Point, start: Point = Zero) = x >= start.x && y >= start.y && x < end.x && y < end.y
 
     operator fun plus(other: Point) = copy(x = x + other.x, y = y + other.y)
     operator fun times(factor: Int) = copy(x = x * factor, y = y * factor)
+     operator fun minus(other: Point) = Point(x - other.x, y - other.y)
     operator fun plus(direction: Direction) = when (direction) {
         Direction.Right -> copy(x = x + 1)
         Direction.Left -> copy(x = x - 1)
@@ -87,6 +89,10 @@ data class Point(val x: Int, val y: Int) {
         Direction.DownLeft -> copy(x = x - 1, y = y + 1)
         Direction.UpLeft -> copy(x = x - 1, y = y - 1)
         Direction.UpRight -> copy(x = x + 1, y = y - 1)
+    }
+
+     companion object {
+        val Zero = Point(0, 0)
     }
 }
 
@@ -133,3 +139,9 @@ fun <T> T.withIndex(index: Int) = IndexedValue(index, value = this)
 infix fun Point.inBoundsOf(lines: List<String>): Boolean {
     return y in lines.indices && x in lines[0].indices
 }
+
+fun <T> generateCombinations(values: List<T>, times: Int): List<List<T>> =
+    generateCombinations((0 until times).map { values })
+
+fun <T> generateCombinations(lists: List<List<T>>): List<List<T>> =
+    lists.fold(listOf(listOf<T>())) { acc, set -> acc.flatMap { list -> set.map { element -> list + element } } }
