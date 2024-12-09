@@ -145,3 +145,11 @@ fun <T> generateCombinations(values: List<T>, times: Int): List<List<T>> =
 
 fun <T> generateCombinations(lists: List<List<T>>): List<List<T>> =
     lists.fold(listOf(listOf<T>())) { acc, set -> acc.flatMap { list -> set.map { element -> list + element } } }
+
+fun Char.toIntValue() = code - '0'.code
+
+fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
+    val toMove = get(index2)
+    set(index2, get(index1))
+    set(index1, toMove)
+}    
