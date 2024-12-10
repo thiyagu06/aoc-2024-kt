@@ -153,3 +153,9 @@ fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
     set(index2, get(index1))
     set(index1, toMove)
 }    
+
+fun <T : Any?> List<List<T>>.get(position: Position): T =
+    this[position.y][position.x]
+
+fun <T : Any?> List<List<T>>.getOrNull(position: Position): T? =
+    this.getOrNull(position.y)?.getOrNull(position.x)
